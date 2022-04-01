@@ -30,5 +30,5 @@ interface UsuarioResponse {
 }
 
 export {URL_DESCARGA_USUARIO, URL_LOGIN};
-export type { TokenUsuarioResponse, UsuarioResponse };
+export type { TokenUsuarioResponse, UsuarioResponse, IUsuario};
 

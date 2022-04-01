@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import axios from 'axios';
 import {ERROR_CODE_NO_AUTENTICADO, ERROR_CODE_NO_VALIDO, ERROR_CODE_SIN_ACCESO_SSO} from "../settings/constant";
 import openNotification from "../components/UI/Antd/Notification";
-import IUsuario, {UsuarioResponse, TokenUsuarioResponse, URL_DESCARGA_USUARIO, URL_LOGIN} from "../modelos/Usuario";
+import {IUsuario,UsuarioResponse, TokenUsuarioResponse, URL_DESCARGA_USUARIO, URL_LOGIN} from "../modelos/Usuario";
 import ResponseAPI from "../modelos/ResponseAPI";
 
 interface AuthValues {
@@ -68,13 +68,15 @@ const AuthProvider = (props: any) => {
 
 
     const signIn = useCallback((params: SignInParams) => {
-        return new Promise<void>((resolve) => {
+        return new Promise<void>((resolve, reject) => {
             axios.post<ResponseAPI<TokenUsuarioResponse>>(URL_LOGIN, params).then(({data}) => {
                 setToken((data.data.token))
                 addItem('token', data.data.token)
                 setLoggedIn(true)
                 resolve()
-            })
+            }).catch(error => {
+                reject(error);
+            });
         });
     }, [])
 
