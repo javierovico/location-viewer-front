@@ -2,15 +2,15 @@ import React, {useCallback, useEffect, useState} from 'react';
 import axios from 'axios';
 import {ERROR_CODE_NO_AUTENTICADO, ERROR_CODE_NO_VALIDO, ERROR_CODE_SIN_ACCESO_SSO} from "../settings/constant";
 import openNotification from "../components/UI/Antd/Notification";
-import {IUsuario,UsuarioResponse, TokenUsuarioResponse, URL_DESCARGA_USUARIO, URL_LOGIN} from "../modelos/Usuario";
+import {IUsuario,UsuarioResponse, TokenUsuarioResponse, URL_USUARIO_PROPIO, URL_LOGIN} from "../modelos/Usuario";
 import ResponseAPI from "../modelos/ResponseAPI";
 
 interface AuthValues {
     loggedIn: boolean,
     logOut: () => void,
     signIn: (authValues: SignInParams) => Promise<void>,
-    user: IUsuario | null,
-    token: string | null,
+    user?: IUsuario,
+    token?: string,
     analizarError: (e: any) => void,
 }
 
@@ -21,8 +21,6 @@ const authValues: AuthValues = {
     signIn: () => new Promise((resolve, reject) => {
         reject("Not Implemented yet")
     }),
-    user: null,
-    token: null,
     analizarError: () => {
     },
 }
@@ -49,12 +47,12 @@ const isValidToken = () => {
 
 const getToken = () => {
     const token = localStorage.getItem('token');
-    return token ? token : null;
+    return token ? token : undefined;
 }
 
 const AuthProvider = (props: any) => {
     const [loggedIn, setLoggedIn] = useState(isValidToken());
-    const [user, setUser] = useState<IUsuario | null>(null);
+    const [user, setUser] = useState<IUsuario>();
     const [token, setToken] = useState(getToken);
 
     /** Establece el token en el axio*/
@@ -82,8 +80,8 @@ const AuthProvider = (props: any) => {
 
 
     const logOut = useCallback(() => {
-        setUser(null);
-        setToken(null);
+        setUser(undefined);
+        setToken(undefined);
         clearItem('token');
         setLoggedIn(false);
     }, []);
@@ -91,7 +89,7 @@ const AuthProvider = (props: any) => {
     /** Si se deslogguea o se loguea, acutliza los datos del usuario logueado */
     useEffect(() => {
         if (loggedIn) {
-            axios.get<ResponseAPI<UsuarioResponse>>(URL_DESCARGA_USUARIO).then(({data}) => {
+            axios.get<ResponseAPI<UsuarioResponse>>(URL_USUARIO_PROPIO).then(({data}) => {
                 setUser(data.data.usuario)
             }).catch(() => {
                 /** Fallo en el logueo*/

@@ -27,7 +27,7 @@ function useMenuSelected(pathname: string, menus: TipoRuta[]) {
                 menuActual = []
             } else {
                 salida.push(menuEncontrado.nombre)
-                menuActual = menuEncontrado.hijos
+                menuActual = menuEncontrado.hijos || []
             }
         })
         return salida

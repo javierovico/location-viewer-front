@@ -1,4 +1,4 @@
-export default class Usuario implements IUsuario{
+export default class Usuario implements IUsuario {
     id: number;
     nombre: string;
     user: string;
@@ -8,9 +8,15 @@ export default class Usuario implements IUsuario{
         this.nombre = obj.nombre;
         this.user = obj.user;
     }
+
+    getLinkSubordinados(): string {
+        return URL_USUARIO + '/' + this.id + URL_SUBORDINADO
+    }
 }
 
-const URL_DESCARGA_USUARIO: string = `/auth/user`;
+const URL_USUARIO_PROPIO: string = `/auth/user`;
+const URL_USUARIO: string = '/usuario'
+const URL_SUBORDINADO: string = '/subordinado'
 const URL_LOGIN: string = '/auth/login';
 
 interface IUsuario {
@@ -29,6 +35,10 @@ interface UsuarioResponse {
     readonly usuario: IUsuario
 }
 
-export {URL_DESCARGA_USUARIO, URL_LOGIN};
-export type { TokenUsuarioResponse, UsuarioResponse, IUsuario};
+export interface SubordinadosResponse {
+    readonly subordinados: IUsuario[]
+}
+
+export {URL_USUARIO_PROPIO, URL_LOGIN};
+export type {TokenUsuarioResponse, UsuarioResponse, IUsuario};
 

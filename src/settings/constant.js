@@ -1,6 +1,7 @@
 // **************** ROUTE CONSTANT START **************************
 // General Page Section
 export const HOME_PAGE = '/';
+export const SUBORDINADOS_PAGE = '/subordinados';
 export const AGENTS_PAGE = '/agents';
 
 // Listing Single Page Section
