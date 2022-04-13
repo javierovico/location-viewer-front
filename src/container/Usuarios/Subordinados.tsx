@@ -25,7 +25,7 @@ const useSubordinados = () => {
 export default function Subordinados() {
     const {subordinados} = useSubordinados()
     return <>
-        <Divider orientation="left">Default Size</Divider>
+        <Divider orientation="left">Lista de subordinados</Divider>
         <List
             header={<div>Header</div>}
             footer={<div>Footer</div>}
